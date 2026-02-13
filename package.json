@@ -1,0 +1,28 @@
+{
+  "name": "dockerized-api-health-checker",
+  "version": "1.0.0",
+  "description": "Modern glassmorphism API health checker using Node.js, Express, EJS, and Docker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "express",
+    "ejs",
+    "docker",
+    "health-check"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "compression": "^1.7.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.0"
+  }
+}

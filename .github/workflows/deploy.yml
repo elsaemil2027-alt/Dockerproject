@@ -1,0 +1,26 @@
+name: Deploy Node Backend (SSH)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy on Ubuntu via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+            cd /var/www/node-backend
+            git pull origin main
+            npm ci --omit=dev
+            pm2 restart node-backend || pm2 start server.js --name node-backend
+            pm2 save

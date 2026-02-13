@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-a" aria-hidden="true"></div>
+    <div class="bg-orb orb-b" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <main class="container">
+      <header class="hero reveal">
+    
+        <h1 id="kinetic-title" class="title">Health Console</h1>
+        <p class="subtitle">
+          Live monitor for major APIs plus your own custom websites, with clean status insights and latency tracking.
+        </p>
+      </header>
+
+      <section class="glass-panel reveal" aria-live="polite">
+        <div class="panel-top">
+          <div class="service">
+            <span id="status-dot" class="dot" aria-hidden="true"></span>
+            <div>
+              <h2>Platform Status</h2>
+              <p id="status-text">Scanning monitored targets...</p>
+            </div>
+          </div>
+          <button id="refresh-btn" class="refresh-btn" type="button">Scan Now</button>
+        </div>
+
+        <div class="metrics-grid">
+          <article class="metric-card">
+            <h3>Targets Up</h3>
+            <p id="up-value" class="metric-value">--</p>
+          </article>
+          <article class="metric-card">
+            <h3>Targets Down</h3>
+            <p id="down-value" class="metric-value">--</p>
+          </article>
+          <article class="metric-card">
+            <h3>Avg Latency</h3>
+            <p id="avg-latency-value" class="metric-value">-- ms</p>
+          </article>
+          <article class="metric-card">
+            <h3>Total Monitored</h3>
+            <p id="total-value" class="metric-value">--</p>
+          </article>
+        </div>
+
+        <form id="custom-check-form" class="custom-form">
+          <label for="custom-url">Check any custom website/API URL</label>
+          <div class="custom-row">
+            <input id="custom-label" name="custom-label" type="text" placeholder="Service label (optional)" maxlength="60" />
+            <input id="custom-url" name="custom-url" type="url" placeholder="https://example.com" required />
+            <button class="refresh-btn" type="submit">Check URL</button>
+          </div>
+          <p id="custom-result" class="custom-result">No custom URL checked yet.</p>
+        </form>
+
+        <div class="table-wrap">
+          <table class="status-table">
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>URL</th>
+                <th>Status</th>
+                <th>Code</th>
+                <th>Latency</th>
+                <th>Checked</th>
+              </tr>
+            </thead>
+            <tbody id="status-tbody">
+              <tr>
+                <td colspan="6" class="placeholder-row">Loading monitored targets...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="footer-row">
+          <p id="meta-line">Waiting for first scan...</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="/js/app.js" defer></script>
+  </body>
+</html>
