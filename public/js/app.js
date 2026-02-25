@@ -106,7 +106,7 @@ async function runScan() {
   refreshBtn.textContent = 'Scanning...';
 
   try {
-    const response = await fetch('/api/scan', { cache: 'no-store' });
+    const response = await fetch('api/scan', { cache: 'no-store' });
     if (!response.ok) throw new Error('Scan endpoint returned a non-200 response');
 
     const payload = await response.json();
@@ -129,7 +129,7 @@ async function runCustomCheck(url, label) {
 
   try {
     const response = await fetch(
-      `/api/check?url=${encodeURIComponent(url)}&label=${encodeURIComponent(label || '')}`,
+      `api/check?url=${encodeURIComponent(url)}&label=${encodeURIComponent(label || '')}`,
       { cache: 'no-store' }
     );
     const payload = await response.json();

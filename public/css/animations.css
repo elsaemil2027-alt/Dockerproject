@@ -2,6 +2,10 @@
    ADVANCED ANIMATIONS & KINETIC EFFECTS
    ============================================ */
 
+:root {
+  --primary-color: #7ee8ff;
+}
+
 /* Shimmer Effect */
 @keyframes shimmer {
   0% {

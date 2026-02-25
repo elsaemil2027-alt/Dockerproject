@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 const startedAt = new Date();
 const REQUEST_TIMEOUT_MS = 8000;
+const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/+$/, '');
 
 const MAJOR_TARGETS = [
   { id: 'github-api', name: 'GitHub API', url: 'https://api.github.com' },
@@ -33,7 +34,13 @@ app.use(helmet({
 app.use(compression());
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next) => {
+  res.locals.basePath = BASE_PATH;
+  next();
+});
+
+const router = express.Router();
+router.use(express.static(path.join(__dirname, 'public')));
 
 function getHealthPayload() {
   const memory = process.memoryUsage();
@@ -121,13 +128,14 @@ async function checkTarget(target) {
   }
 }
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.render('index', {
-    title: 'PulseGlass | API Health Checker'
+    title: 'PulseGlass | API Health Checker',
+    basePath: BASE_PATH
   });
 });
 
-app.get('/api/health', async (req, res) => {
+router.get('/api/health', async (req, res) => {
   const start = process.hrtime.bigint();
 
   await new Promise((resolve) => setTimeout(resolve, 10));
@@ -144,13 +152,13 @@ app.get('/api/health', async (req, res) => {
   res.status(200).json(payload);
 });
 
-app.get('/api/targets', (req, res) => {
+router.get('/api/targets', (req, res) => {
   res.json({
     targets: MAJOR_TARGETS
   });
 });
 
-app.get('/api/check', async (req, res) => {
+router.get('/api/check', async (req, res) => {
   const url = req.query.url;
   const label = req.query.label;
 
@@ -180,7 +188,7 @@ app.get('/api/check', async (req, res) => {
   res.status(result.ok ? 200 : 503).json(result);
 });
 
-app.get('/api/scan', async (req, res) => {
+router.get('/api/scan', async (req, res) => {
   const checks = await Promise.all(MAJOR_TARGETS.map((target) => checkTarget(target)));
 
   const upCount = checks.filter((item) => item.ok).length;
@@ -201,13 +209,22 @@ app.get('/api/scan', async (req, res) => {
   });
 });
 
-app.use((req, res) => {
+router.use((req, res) => {
   res.status(404).json({
     status: 'error',
     message: 'Route not found',
     path: req.originalUrl
   });
 });
+
+if (BASE_PATH) {
+  app.use(BASE_PATH, router);
+  app.get('/', (req, res) => {
+    res.redirect(`${BASE_PATH}/`);
+  });
+} else {
+  app.use('/', router);
+}
 
 app.listen(port, () => {
   console.log(`PulseGlass API Health Checker is running on http://localhost:${port}`);
