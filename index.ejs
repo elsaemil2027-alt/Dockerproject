@@ -4,11 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
-    <link rel="icon" type="image/svg+xml" href="<%= basePath %>/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="<%= basePath %>/newstyle.css" />
+    <link rel="stylesheet" href="<%= basePath %>/styles.css" />
   </head>
   <body>
     <div class="bg-orb orb-a" aria-hidden="true"></div>
@@ -27,42 +26,42 @@
       <section class="glass-panel reveal" aria-live="polite">
         <div class="panel-top">
           <div class="service">
-            <span id="status-dot" class="dot" aria-hidden="true"></span>
+            <span class="dot ok" aria-hidden="true"></span>
             <div>
               <h2>Platform Status</h2>
-              <p id="status-text">Scanning monitored targets...</p>
+              <p>Use the API endpoints below to check live status.</p>
             </div>
           </div>
-          <button id="refresh-btn" class="refresh-btn" type="button">Scan Now</button>
+          <a class="refresh-btn" href="<%= basePath %>/api/scan">Run Scan</a>
         </div>
 
         <div class="metrics-grid">
           <article class="metric-card">
             <h3>Targets Up</h3>
-            <p id="up-value" class="metric-value">--</p>
+            <p class="metric-value">API</p>
           </article>
           <article class="metric-card">
             <h3>Targets Down</h3>
-            <p id="down-value" class="metric-value">--</p>
+            <p class="metric-value">Via</p>
           </article>
           <article class="metric-card">
             <h3>Avg Latency</h3>
-            <p id="avg-latency-value" class="metric-value">-- ms</p>
+            <p class="metric-value">JSON</p>
           </article>
           <article class="metric-card">
             <h3>Total Monitored</h3>
-            <p id="total-value" class="metric-value">--</p>
+            <p class="metric-value">Routes</p>
           </article>
         </div>
 
-        <form id="custom-check-form" class="custom-form">
+        <form class="custom-form" action="<%= basePath %>/api/check" method="get" target="_blank" rel="noopener noreferrer">
           <label for="custom-url">Check any custom website/API URL</label>
           <div class="custom-row">
-            <input id="custom-label" name="custom-label" type="text" placeholder="Service label (optional)" maxlength="60" />
-            <input id="custom-url" name="custom-url" type="url" placeholder="https://example.com" required />
-            <button class="refresh-btn" type="submit">Check URL</button>
+            <input id="custom-label" name="label" type="text" placeholder="Service label (optional)" maxlength="60" />
+            <input id="custom-url" name="url" type="url" placeholder="https://example.com" required />
+            <button class="refresh-btn" type="submit">Check URL (JSON)</button>
           </div>
-          <p id="custom-result" class="custom-result">No custom URL checked yet.</p>
+          <p class="custom-result">Response opens as JSON in a new tab.</p>
         </form>
 
         <div class="table-wrap">
@@ -77,20 +76,39 @@
                 <th>Checked</th>
               </tr>
             </thead>
-            <tbody id="status-tbody">
+            <tbody>
               <tr>
-                <td colspan="6" class="placeholder-row">Loading monitored targets...</td>
+                <td>Health</td>
+                <td><a href="<%= basePath %>/api/health"><%= basePath %>/api/health</a></td>
+                <td><span class="state-pill state-ok">LINK</span></td>
+                <td>200</td>
+                <td>-</td>
+                <td>On request</td>
+              </tr>
+              <tr>
+                <td>Targets</td>
+                <td><a href="<%= basePath %>/api/targets"><%= basePath %>/api/targets</a></td>
+                <td><span class="state-pill state-ok">LINK</span></td>
+                <td>200</td>
+                <td>-</td>
+                <td>On request</td>
+              </tr>
+              <tr>
+                <td>Scan</td>
+                <td><a href="<%= basePath %>/api/scan"><%= basePath %>/api/scan</a></td>
+                <td><span class="state-pill state-ok">LINK</span></td>
+                <td>200</td>
+                <td>-</td>
+                <td>On request</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="footer-row">
-          <p id="meta-line">Waiting for first scan...</p>
+          <p>JavaScript removed for AWS-safe static rendering.</p>
         </div>
       </section>
     </main>
-
-    <script src="<%= basePath %>/app.js" defer></script>
   </body>
 </html>
