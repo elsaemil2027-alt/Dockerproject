@@ -19,7 +19,7 @@ const MAJOR_TARGETS = [
 ];
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', __dirname);
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 });
 
 const router = express.Router();
-router.use(express.static(path.join(__dirname, 'public')));
+router.use(express.static(__dirname));
 
 function getHealthPayload() {
   const memory = process.memoryUsage();
