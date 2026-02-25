@@ -14,22 +14,6 @@ const customResult = document.getElementById('custom-result');
 const customChecksByUrl = new Map();
 let majorChecks = [];
 
-function kineticTitle() {
-  const title = document.getElementById('kinetic-title');
-  if (!title) return;
-
-  const text = title.textContent;
-  title.textContent = '';
-
-  [...text].forEach((char, i) => {
-    const span = document.createElement('span');
-    span.className = 'k-letter';
-    span.textContent = char;
-    span.style.animationDelay = `${i * 35}ms`;
-    title.appendChild(span);
-  });
-}
-
 function setPlatformStatus(allHealthy) {
   statusDot.classList.remove('ok', 'down');
   statusDot.classList.add(allHealthy ? 'ok' : 'down');
@@ -168,6 +152,5 @@ customForm.addEventListener('submit', (event) => {
   runCustomCheck(url, label);
 });
 
-kineticTitle();
 runScan();
 setInterval(runScan, 12000);
